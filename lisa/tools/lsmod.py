@@ -5,7 +5,7 @@ import re
 from typing import Any
 
 from lisa.executable import Tool
-from lisa.util import LisaException, find_patterns_in_lines
+from lisa.util import find_patterns_in_lines
 
 
 class Lsmod(Tool):

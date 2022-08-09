@@ -4,7 +4,6 @@
 
 from lisa.executable import Tool
 from lisa.operating_system import Posix
-from lisa.util import LisaException
 
 
 class Unzip(Tool):

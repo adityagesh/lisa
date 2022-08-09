@@ -6,7 +6,6 @@ from datetime import datetime
 from dateutil.parser import parser
 
 from lisa.executable import Tool
-from lisa.util import LisaException
 
 
 class Date(Tool):

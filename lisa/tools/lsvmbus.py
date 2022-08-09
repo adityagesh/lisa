@@ -211,8 +211,8 @@ class Lsvmbus(Tool):
                     shell=True,
                     sudo=True,
                     expected_exit_code=0,
-                    expected_exit_code_failure_message="get unexpected non-zero exit code"
-                    f"when run {self.command} -vv.",
+                    expected_exit_code_failure_message="get unexpected non-zero "
+                    f"exit code when run {self.command} -vv.",
                 )
             raw_list = re.finditer(PATTERN_VMBUS_DEVICE, result.stdout)
             for vmbus_raw in raw_list:

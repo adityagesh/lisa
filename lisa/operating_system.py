@@ -1122,7 +1122,7 @@ class RPMDistro(Linux):
         if not signed:
             command += " --nogpgcheck"
 
-        install_result = self._node.execute(
+        self._node.execute(
             command,
             shell=True,
             sudo=True,

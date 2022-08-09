@@ -9,7 +9,6 @@ from dateutil.parser import parser
 
 from lisa.executable import Tool
 from lisa.tools.powershell import PowerShell
-from lisa.util import LisaException
 
 
 class Uptime(Tool):

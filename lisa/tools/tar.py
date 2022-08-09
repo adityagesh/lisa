@@ -6,7 +6,6 @@ from typing import Callable, List
 from assertpy import assert_that
 
 from lisa.executable import Tool
-from lisa.util import LisaException
 
 
 class Tar(Tool):

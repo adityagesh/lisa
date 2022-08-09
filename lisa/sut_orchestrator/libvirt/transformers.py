@@ -319,7 +319,7 @@ class LibvirtSourceInstaller(LibvirtInstaller):
             shell=True,
             sudo=True,
         )
-        result = self._node.execute(
+        self._node.execute(
             "ninja -C build",
             shell=True,
             sudo=True,
@@ -327,7 +327,7 @@ class LibvirtSourceInstaller(LibvirtInstaller):
             expected_exit_code=0,
             expected_exit_code_failure_message="'ninja -C build' command failed.",
         )
-        result = self._node.execute(
+        self._node.execute(
             "ninja -C build install",
             shell=True,
             sudo=True,
@@ -371,7 +371,7 @@ class CloudHypervisorSourceInstaller(CloudHypervisorInstaller):
         return SourceInstallerSchema
 
     def _build_and_install(self, code_path: PurePath) -> None:
-        result = self._node.execute(
+        self._node.execute(
             "cargo build --release",
             shell=True,
             sudo=False,
@@ -400,7 +400,7 @@ class CloudHypervisorSourceInstaller(CloudHypervisorInstaller):
         linux: Linux = cast(Linux, self._node.os)
         packages_list = self._distro_package_mapping[type(linux).__name__]
         linux.install_packages(list(packages_list))
-        result = self._node.execute(
+        self._node.execute(
             "curl https://sh.rustup.rs -sSf | sh -s -- -y",
             shell=True,
             sudo=False,

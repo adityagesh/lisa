@@ -7,7 +7,7 @@ from datetime import datetime
 from dateutil.parser import parser
 
 from lisa.executable import Tool
-from lisa.util import LisaException, get_matched_str
+from lisa.util import get_matched_str
 
 
 class Who(Tool):
