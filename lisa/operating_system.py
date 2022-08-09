@@ -253,8 +253,9 @@ class Windows(OperatingSystem):
             cmd="ver",
             shell=True,
             no_error_log=True,
+            expected_exit_code=0,
+            expected_exit_code_failure_message="error on get os information:",
         )
-        cmd_result.assert_exit_code(message="error on get os information:")
         assert cmd_result.stdout, "not found os information from 'ver'"
 
         full_version = cmd_result.stdout
@@ -830,8 +831,11 @@ class Debian(Linux):
     def _get_information(self) -> OsInformation:
         # try to set version info from /etc/os-release.
         cat = self._node.tools[Cat]
-        cmd_result = cat.run("/etc/os-release")
-        cmd_result.assert_exit_code(message="error on get os information")
+        cmd_result = cat.run(
+            "/etc/os-release",
+            expected_exit_code=0,
+            expected_exit_code_failure_message="error on get os information",
+        )
 
         vendor: str = ""
         release: str = ""
@@ -860,8 +864,11 @@ class Debian(Linux):
         # marketplace image - debian debian-10 10-backports-gen2 0.20210201.535
         # version from /etc/os-release is 10
         # version from /etc/debian_version is 10.7
-        cmd_result = cat.run("/etc/debian_version")
-        cmd_result.assert_exit_code(message="error on get debian version")
+        cmd_result = cat.run(
+            "/etc/debian_version",
+            expected_exit_code=0,
+            expected_exit_code_failure_message="error on get debian version",
+        )
         release = cmd_result.stdout
 
         if vendor == "":
@@ -967,9 +974,12 @@ class Ubuntu(Debian):
 
     def _get_information(self) -> OsInformation:
         cmd_result = self._node.execute(
-            cmd="lsb_release -a", shell=True, no_error_log=True
+            cmd="lsb_release -a",
+            shell=True,
+            no_error_log=True,
+            expected_exit_code=0,
+            expected_exit_code_failure_message="error on get os information",
         )
-        cmd_result.assert_exit_code(message="error on get os information")
         assert cmd_result.stdout, "not found os information from 'lsb_release -a'"
 
         for row in cmd_result.stdout.splitlines():
@@ -1113,9 +1123,13 @@ class RPMDistro(Linux):
             command += " --nogpgcheck"
 
         install_result = self._node.execute(
-            command, shell=True, sudo=True, timeout=timeout
+            command,
+            shell=True,
+            sudo=True,
+            timeout=timeout,
+            expected_exit_code=0,
+            expected_exit_code_failure_message=f"Failed to install {packages}.",
         )
-        install_result.assert_exit_code(0, f"Failed to install {packages}.")
 
         self._log.debug(f"{packages} is/are installed successfully.")
 
@@ -1331,9 +1345,8 @@ class Redhat(Fedora):
             # Parse /etc/redhat-release to support 6.x and 8.x. Refer to
             # examples of __legacy_redhat_information_pattern.
             cmd_result = self._node.execute(
-                cmd="cat /etc/redhat-release", no_error_log=True
+                cmd="cat /etc/redhat-release", no_error_log=True, expected_exit_code=0
             )
-            cmd_result.assert_exit_code()
             full_version = cmd_result.stdout
             matches = self.__legacy_redhat_information_pattern.match(full_version)
             assert matches, f"cannot match version information from: {full_version}"

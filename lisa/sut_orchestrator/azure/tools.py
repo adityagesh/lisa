@@ -65,8 +65,7 @@ class Waagent(Tool):
         # the vm need to be exported clearly, it needs to remove the current
         # user with below command:
         # self.run("-deprovision+user --force", sudo=True)
-        result = self.run("-deprovision --force", sudo=True)
-        result.assert_exit_code()
+        self.run("-deprovision --force", sudo=True, expected_exit_code=0)
 
     def get_configuration(self) -> Dict[str, str]:
         if isinstance(self.node.os, CoreOs):
