@@ -237,11 +237,11 @@ class LisDriver(Tool):
 
     def _install(self) -> bool:
         result = self.install_from_iso()
-        if result.exit_code != 0:
-            raise LisaException(
-                f"Unable to install the LIS RPMs! exit_code: {result.exit_code}"
-                f"stderr: {result.stderr}"
-            )
+        result.assert_exit_code(
+            0,
+            f"Unable to install the LIS RPMs! exit_code: {result.exit_code}"
+            f"stderr: {result.stderr}",
+        )
         self.node.reboot(360)
         return True
 

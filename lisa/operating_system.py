@@ -799,14 +799,13 @@ class Debian(Linux):
             command, shell=True, sudo=True, timeout=timeout
         )
         # get error lines.
-        if install_result.exit_code != 0:
-            install_result.assert_exit_code(
-                0,
-                f"Failed to install {packages}, "
-                f"please check the package name and repo are correct or not.\n"
-                + "\n".join(self.get_apt_error(install_result.stdout))
-                + "\n",
-            )
+        install_result.assert_exit_code(
+            0,
+            f"Failed to install {packages}, "
+            f"please check the package name and repo are correct or not.\n"
+            + "\n".join(self.get_apt_error(install_result.stdout))
+            + "\n",
+        )
 
     def _package_exists(self, package: str) -> bool:
         command = "dpkg --get-selections"
@@ -1513,8 +1512,7 @@ class Suse(Linux):
         cmd += f" {repo} {repo_name}"
         cmd_result = self._node.execute(cmd=cmd, sudo=True)
         if "already exists. Please use another alias." not in cmd_result.stdout:
-            if cmd_result.exit_code != 0:
-                raise LisaException(f"fail to add repo {repo}")
+            cmd_result.assert_exit_code(0, f"fail to add repo {repo}")
         else:
             self._log.debug(f"repo {repo_name} already exist")
 

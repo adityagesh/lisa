@@ -214,11 +214,10 @@ class RepoInstaller(BaseInstaller):
         )
         ubuntu.wait_running_package_process()
         result = node.execute(f'add-apt-repository -y "{repo_entry}"', sudo=True)
-        if result.exit_code != 0:
-            result.assert_exit_code(
-                message="failed on add repo\n"
-                + "\n".join(ubuntu.get_apt_error(result.stdout))
-            )
+
+        result.assert_exit_code(
+            0, "failed on add repo\n" + "\n".join(ubuntu.get_apt_error(result.stdout))
+        )
 
         full_package_name = f"{runbook.source}/{version_name}"
         self._log.info(f"installing kernel package: {full_package_name}")

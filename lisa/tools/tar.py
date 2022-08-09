@@ -35,10 +35,9 @@ class Tar(Tool):
             # optionally strip N top level components from a tar file
             tar_cmd += f" --strip-components={strip_components}"
         result = self.run(tar_cmd, shell=True, force_run=True, sudo=sudo)
-        if result.exit_code != 0:
-            raise LisaException(
-                f"Failed to extract file to {dest_dir}, {result.stderr}"
-            )
+        result.assert_exit_code(
+            0, f"Failed to extract file to {dest_dir}, {result.stderr}"
+        )
 
     def list(
         self, file: str, recursive: bool = True, folders_only: bool = False

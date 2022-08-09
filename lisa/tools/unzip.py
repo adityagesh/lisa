@@ -34,7 +34,6 @@ class Unzip(Tool):
         result = self.run(
             f"{file} -d {dest_dir}", shell=True, force_run=True, sudo=sudo
         )
-        if result.exit_code != 0:
-            raise LisaException(
-                f"Failed to extract file to {dest_dir}, {result.stderr}"
-            )
+        result.assert_exit_code(
+            0, f"Failed to extract file to {dest_dir}, {result.stderr}"
+        )

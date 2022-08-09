@@ -84,8 +84,7 @@ class Wget(Tool):
         actual_file_path = self.node.execute(
             f"ls {download_file_path}", shell=True, sudo=sudo
         )
-        if actual_file_path.exit_code != 0:
-            raise LisaException(f"File {actual_file_path} doesn't exist.")
+        actual_file_path.assert_exit_code(0, f"File {actual_file_path} doesn't exist.")
         if executable:
             self.node.execute(f"chmod +x {actual_file_path}", sudo=sudo)
 
